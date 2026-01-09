@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Sidebar Calendar</title>
+  <style>
+    :root {
+      --bg: #f8f9fa; --card: #ffffff; --text: #333; --primary: #1a73e8;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; --primary: #8ab4f8; }
+    }
+    body { font-family: sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; margin: 0; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; background: var(--card); padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; }
+    .lang-switch { position: absolute; top: 20px; right: 20px; display: flex; gap: 8px; }
+    button { background: none; border: 1px solid var(--text); color: var(--text); padding: 4px 8px; cursor: pointer; border-radius: 4px; }
+    button.active { background: var(--primary); color: white; border-color: var(--primary); }
+    h1 { color: var(--primary); margin-top: 0; }
+    h2 { border-left: 4px solid var(--primary); padding-left: 10px; margin-top: 30px; }
+    .hidden { display: none; }
+    footer { margin-top: 50px; text-align: center; font-size: 0.9em; opacity: 0.7; }
+    a { color: var(--primary); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lang-switch">
+      <button id="btn-en" onclick="setLang('en')" class="active">English</button>
+      <button id="btn-ko" onclick="setLang('ko')">한국어</button>
+    </div>
+
+    <!-- English Content -->
+    <div id="content-en">
+      <header>
+        <h1>Privacy Policy</h1>
+        <p>Last Updated: 2026-01-09</p>
+      </header>
+      <main>
+        <section>
+          <h2>1. Introduction</h2>
+          <p><strong>Sidebar Calendar</strong> respects your privacy. This policy explains how we handle your data.</p>
+        </section>
+        <section>
+          <h2>2. Data Collection & Use</h2>
+          <ul>
+            <li><strong>Local Storage:</strong> Your schedule data is stored locally within your browser using the Chrome Storage API. We do not have access to this data.</li>
+            <li><strong>Google Calendar (Optional):</strong> If you enable Google Calendar Sync:
+              <ul>
+                <li>We access your Google Calendar solely to display your events in the sidebar and add new events you create.</li>
+                <li>We do not store your data on any external servers other than communicating directly with Google's official APIs.</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>3. Data Sharing</h2>
+          <p>We do not share, sell, or transfer your data to third parties.</p>
+        </section>
+        <section>
+          <h2>4. Contact</h2>
+          <p>Email: <a href="mailto:support@sidebarcalendar.com">support@sidebarcalendar.com</a></p>
+        </section>
+      </main>
+    </div>
+
+    <!-- Korean Content -->
+    <div id="content-ko" class="hidden">
+      <header>
+        <h1>개인정보처리방침</h1>
+        <p>최종 수정일: 2026년 1월 9일</p>
+      </header>
+      <main>
+        <section>
+          <h2>1. 개요</h2>
+          <p><strong>Sidebar Calendar</strong>는 사용자의 개인정보를 소중하게 생각합니다. 본 방침은 앱이 데이터를 어떻게 처리하는지 설명합니다.</p>
+        </section>
+        <section>
+          <h2>2. 데이터 수집 및 이용</h2>
+          <ul>
+            <li><strong>로컬 저장소:</strong> 사용자의 일정 데이터는 브라우저 내부(Chrome Storage)에만 저장됩니다. 개발자는 이 데이터에 접근할 수 없습니다.</li>
+            <li><strong>Google Calendar (선택 사항):</strong> 구글 캘린더 연동 기능을 사용하는 경우:
+              <ul>
+                <li>사용자의 캘린더 일정을 사이드바에 표시하고, 새 일정을 추가하기 위해 Google API를 사용합니다.</li>
+                <li>이 과정에서 데이터는 Google 공식 API와 직접 통신할 뿐, 별도의 외부 서버로 전송되거나 저장되지 않습니다.</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>3. 제3자 제공</h2>
+          <p>사용자의 개인정보를 제3자에게 판매하거나 제공하지 않습니다.</p>
+        </section>
+        <section>
+          <h2>4. 문의하기</h2>
+          <p>이메일: <a href="mailto:support@sidebarcalendar.com">support@sidebarcalendar.com</a></p>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      &copy; 2026 Sidebar Calendar. <a href="/">Home</a>
+    </footer>
+  </div>
+
+  <script>
+    function setLang(lang) {
+      document.getElementById('content-en').classList.toggle('hidden', lang !== 'en');
+      document.getElementById('content-ko').classList.toggle('hidden', lang !== 'ko');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+      
+      // Save preference (optional)
+      localStorage.setItem('privacy-lang', lang);
+    }
+
+    // Auto-detect or load saved
+    const saved = localStorage.getItem('privacy-lang');
+    const browserLang = navigator.language.startsWith('ko') ? 'ko' : 'en';
+    if (saved) setLang(saved);
+    else setLang(browserLang);
+  </script>
+</body>
+</html>
