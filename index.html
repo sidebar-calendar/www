@@ -15,33 +15,97 @@
     }
     body { margin: 0; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); }
     .hero {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
       padding: 20px;
+      box-sizing: border-box;
     }
-    h1 { font-size: 3rem; margin-bottom: 10px; background: linear-gradient(45deg, #1a73e8, #a50e0e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .lang-switch {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+    
+    .lang-btn {
+      background: none;
+      border: 1px solid var(--text);
+      color: var(--text);
+      padding: 5px 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      transition: all 0.2s;
+    }
+    
+    .lang-btn.active {
+      background: var(--text);
+      color: var(--bg);
+      opacity: 1;
+      font-weight: bold;
+    }
+    
+    h1 { font-size: 3rem; margin-bottom: 10px; margin-top: 20px; background: linear-gradient(45deg, #1a73e8, #a50e0e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     p { font-size: 1.2rem; max-width: 600px; margin-bottom: 40px; line-height: 1.6; opacity: 0.8; }
+    
+    .screenshot {
+      max-width: 80%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      margin-bottom: 30px;
+      max-height: 400px;
+      object-fit: contain;
+    }
+
     .cta-button {
       background: var(--primary); color: white; padding: 15px 30px; font-size: 1.1rem; border-radius: 30px; text-decoration: none; font-weight: bold; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
     }
     .cta-button:hover { transform: scale(1.05); }
-    .footer { position: absolute; bottom: 20px; font-size: 0.9rem; opacity: 0.6; }
+    .footer { margin-top: auto; padding-top: 40px; padding-bottom: 20px; font-size: 0.9rem; opacity: 0.6; }
     .footer a { color: var(--text); margin: 0 10px; }
+    
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <div class="hero">
-    <h1>Sidebar Calendar</h1>
-    <p>
-      Experience the most convenient way to manage your schedule.<br>
-      Drag & Drop to add events, Sync with Google Calendar,<br>
-      all within your browser's sidebar.
-    </p>
-    <a href="https://chrome.google.com/webstore/detail/your-extension-id" class="cta-button">Download for Chrome</a>
+    <div class="lang-switch">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">English</button>
+      <button class="lang-btn" id="btn-ko" onclick="setLang('ko')">한국어</button>
+    </div>
+
+    <!-- English Content -->
+    <div id="content-en" class="content-wrapper">
+      <img src="assets/thumb-eng.png" alt="Sidebar Calendar Preview" class="screenshot" onerror="this.style.display='none'">
+      <h1>Sidebar Calendar</h1>
+      <p>
+        Experience the most convenient way to manage your schedule.<br>
+        Drag & Drop to add events, Sync with Google Calendar,<br>
+        all within your browser's sidebar.
+      </p>
+      <a href="https://chromewebstore.google.com/detail/sidebar-calendar/cjfnffeifppecjchojhhiohnncccfamg" class="cta-button">Download for Chrome</a>
+    </div>
+
+    <!-- Korean Content -->
+    <div id="content-ko" class="content-wrapper hidden">
+      <img src="assets/thumb-kor.png" alt="사이드바 캘린더 미리보기" class="screenshot" onerror="this.style.display='none'">
+      <h1>사이드바 캘린더</h1>
+      <p>
+        웹 서핑 중 드래그 한 번으로 일정을 등록하고,<br>
+        구글 캘린더와 완벽하게 동기화하세요.<br>
+        브라우저 사이드바에서 언제든 확인 가능합니다.
+      </p>
+      <a href="https://chromewebstore.google.com/detail/sidebar-calendar/cjfnffeifppecjchojhhiohnncccfamg" class="cta-button">Chrome에 추가하기</a>
+    </div>
     
     <div class="footer">
       &copy; 2026 Sidebar Calendar.
@@ -49,5 +113,30 @@
       <a href="mailto:support@sidebarcalendar.com">Contact</a>
     </div>
   </div>
+
+  <script>
+    function setLang(lang) {
+      // Toggle Content
+      document.getElementById('content-en').classList.toggle('hidden', lang !== 'en');
+      document.getElementById('content-ko').classList.toggle('hidden', lang !== 'ko');
+      
+      // Toggle Buttons
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+
+      // Update Title based on lang
+      document.title = lang === 'ko' 
+        ? '사이드바 캘린더 - 가장 편리한 일정 관리' 
+        : 'Sidebar Calendar - Your Schedule, Always Visible';
+
+      // Save preference
+      localStorage.setItem('landing-lang', lang);
+    }
+
+    // Initialize
+    const saved = localStorage.getItem('landing-lang');
+    const browserLang = navigator.language.startsWith('ko') ? 'ko' : 'en';
+    setLang(saved || browserLang);
+  </script>
 </body>
 </html>
